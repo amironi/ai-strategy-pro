@@ -2311,6 +2311,9 @@
             body: data,
           });
           const json = await res.json();
+          if (json.message && json.message.includes("Activation")) {
+            throw new Error("activation");
+          }
           if (json.success === "true" || json.success === true) {
             form.reset();
             // Hide form and heading, show success box
@@ -2324,10 +2327,14 @@
           } else {
             throw new Error("submission failed");
           }
-        } catch {
-          errorDiv.textContent = currentLang === "he"
-            ? "שגיאה בשליחה — נסו שוב או כתבו ישירות לאימייל."
-            : "Submission error — please try again or email us directly.";
+        } catch (err) {
+          errorDiv.textContent = err.message === "activation"
+            ? (currentLang === "he"
+                ? "📧 נשלח אימייל אימות ל-am5050@gmail.com — לחצו על הקישור ואז שלחו שוב."
+                : "📧 Activation email sent to am5050@gmail.com — click the link then resubmit.")
+            : (currentLang === "he"
+                ? "שגיאה בשליחה — נסו שוב או צרו קשר ישירות."
+                : "Submission error — please try again or contact us directly.");
           errorDiv.style.display = "block";
           btn.innerHTML =
             t.formSubmit +
