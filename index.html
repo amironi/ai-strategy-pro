@@ -1166,7 +1166,7 @@
 
           <!-- Brain image -->
           <img
-            src="brain.png"
+            src="img/brain.png"
             alt="AI Brain"
             style="
               width: 100%;
@@ -2040,6 +2040,7 @@
                 name="phone"
                 placeholder="טלפון"
                 class="inp"
+                style="text-align: right; direction: ltr"
                 data-i18n="formPhone"
               />
               <textarea
@@ -2131,42 +2132,98 @@
                 style="
                   display: flex;
                   justify-content: center;
-                  gap: 1.5rem;
+                  align-items: center;
+                  gap: 2rem;
                   flex-wrap: wrap;
                 "
               >
-                <span
+                <!-- Microsoft Azure -->
+                <img
+                  src="img/azure.jpeg"
+                  alt="Microsoft Azure"
                   style="
-                    color: rgba(203, 213, 225, 0.35);
-                    font-size: 0.85rem;
-                    font-weight: 700;
+                    height: 35px;
+                    opacity: 0.4;
+                    transition:
+                      opacity 0.3s,
+                      transform 0.3s;
+                    filter: grayscale(100%) brightness(1.2);
                   "
-                  >Microsoft Azure</span
-                >
-                <span
+                  onmouseover="
+                    this.style.opacity = '0.8';
+                    this.style.transform = 'scale(1.05)';
+                  "
+                  onmouseout="
+                    this.style.opacity = '0.4';
+                    this.style.transform = 'scale(1)';
+                  "
+                />
+
+                <!-- OpenAI -->
+                <img
+                  src="img/openAi.jpeg"
+                  alt="OpenAI"
                   style="
-                    color: rgba(203, 213, 225, 0.35);
-                    font-size: 0.85rem;
-                    font-weight: 700;
+                    height: 35px;
+                    opacity: 0.4;
+                    transition:
+                      opacity 0.3s,
+                      transform 0.3s;
+                    filter: grayscale(100%) brightness(1.2);
                   "
-                  >OpenAI</span
-                >
-                <span
+                  onmouseover="
+                    this.style.opacity = '0.8';
+                    this.style.transform = 'scale(1.05)';
+                  "
+                  onmouseout="
+                    this.style.opacity = '0.4';
+                    this.style.transform = 'scale(1)';
+                  "
+                />
+
+                <!-- Claude (Anthropic) -->
+                <img
+                  src="img/claude.jpeg"
+                  alt="Claude AI"
                   style="
-                    color: rgba(203, 213, 225, 0.35);
-                    font-size: 0.85rem;
-                    font-weight: 700;
+                    height: 35px;
+                    opacity: 0.4;
+                    transition:
+                      opacity 0.3s,
+                      transform 0.3s;
+                    filter: grayscale(100%) brightness(1.2);
                   "
-                  >Anthropic</span
-                >
-                <span
+                  onmouseover="
+                    this.style.opacity = '0.8';
+                    this.style.transform = 'scale(1.05)';
+                  "
+                  onmouseout="
+                    this.style.opacity = '0.4';
+                    this.style.transform = 'scale(1)';
+                  "
+                />
+
+                <!-- AWS -->
+                <img
+                  src="img/aes.jpeg"
+                  alt="AWS"
                   style="
-                    color: rgba(203, 213, 225, 0.35);
-                    font-size: 0.85rem;
-                    font-weight: 700;
+                    height: 35px;
+                    opacity: 0.4;
+                    transition:
+                      opacity 0.3s,
+                      transform 0.3s;
+                    filter: grayscale(100%) brightness(1.2);
                   "
-                  >AWS</span
-                >
+                  onmouseover="
+                    this.style.opacity = '0.8';
+                    this.style.transform = 'scale(1.05)';
+                  "
+                  onmouseout="
+                    this.style.opacity = '0.4';
+                    this.style.transform = 'scale(1)';
+                  "
+                />
               </div>
             </div>
           </div>
