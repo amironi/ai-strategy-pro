@@ -465,6 +465,278 @@
       .lang-flag {
         font-size: 1.1rem;
       }
+
+      /* ── Mobile Responsive Styles ── */
+      @media (max-width: 768px) {
+        body::before {
+          background-size: 32px 32px;
+        }
+
+        /* Navbar mobile */
+        #nav > div {
+          padding: 0 1rem !important;
+          height: 60px !important;
+        }
+
+        #nav .logo-text {
+          font-size: 1rem !important;
+        }
+
+        #nav nav {
+          display: none !important;
+        }
+
+        #nav .btn-primary {
+          padding: 0.45rem 1rem !important;
+          font-size: 0.8rem !important;
+        }
+
+        #nav .btn-primary svg {
+          width: 14px !important;
+          height: 14px !important;
+        }
+
+        .lang-toggle {
+          padding: 0.35rem 0.6rem;
+          font-size: 0.75rem;
+        }
+
+        /* Hero mobile */
+        section[style*="min-height: 100vh"] > div {
+          grid-template-columns: 1fr !important;
+          gap: 2rem !important;
+          padding: 3rem 1rem !important;
+          text-align: center !important;
+        }
+
+        section[style*="min-height: 100vh"] > div > div:first-child {
+          text-align: center !important;
+          order: 2;
+        }
+
+        section[style*="min-height: 100vh"] > div > div:last-child {
+          order: 1;
+          max-width: 300px;
+          margin: 0 auto;
+        }
+
+        section[style*="min-height: 100vh"] h1 {
+          font-size: clamp(2rem, 8vw, 2.5rem) !important;
+          line-height: 1.15 !important;
+        }
+
+        section[style*="min-height: 100vh"] p {
+          margin-right: auto !important;
+          margin-left: auto !important;
+          max-width: 100% !important;
+        }
+
+        section[style*="min-height: 100vh"] .pill {
+          margin: 0 auto 1.5rem !important;
+        }
+
+        section[style*="min-height: 100vh"]
+          > div
+          > div:first-child
+          > div[style*="flex-wrap"] {
+          justify-content: center !important;
+        }
+
+        .stat-box {
+          padding: 0.7rem 1rem !important;
+          font-size: 0.85rem;
+        }
+
+        .stat-box > div > div:first-child {
+          font-size: 0.65rem !important;
+        }
+
+        .stat-box > div > div:last-child {
+          font-size: 0.95rem !important;
+        }
+
+        /* Services grid mobile */
+        #services > div > div:last-child {
+          grid-template-columns: 1fr !important;
+          gap: 1rem !important;
+        }
+
+        .svc-card {
+          padding: 1.5rem !important;
+        }
+
+        .icon-badge {
+          width: 44px !important;
+          height: 44px !important;
+          font-size: 1.3rem !important;
+        }
+
+        /* Why Us grid mobile */
+        #why-us > div > div:last-child {
+          grid-template-columns: 1fr !important;
+          gap: 1rem !important;
+        }
+
+        .val-card {
+          padding: 2rem 1.5rem !important;
+        }
+
+        .val-icon {
+          width: 52px !important;
+          height: 52px !important;
+          font-size: 1.6rem !important;
+        }
+
+        /* Methodology grid mobile */
+        #methodology > div > div > div {
+          grid-template-columns: 1fr !important;
+          gap: 1.5rem !important;
+        }
+
+        #methodology .step-card {
+          padding: 2rem !important;
+        }
+
+        .step-num {
+          font-size: 3.5rem !important;
+        }
+
+        /* Contact section mobile */
+        #contact > div > div:last-child {
+          grid-template-columns: 1fr !important;
+          gap: 2rem !important;
+        }
+
+        #contact .glass {
+          padding: 2rem !important;
+        }
+
+        /* Footer mobile */
+        footer > div {
+          flex-direction: column !important;
+          text-align: center !important;
+          gap: 1.5rem !important;
+        }
+
+        footer > div > div:last-child {
+          flex-direction: column !important;
+          gap: 1rem !important;
+        }
+
+        /* Section padding mobile */
+        section {
+          padding: 4rem 0 !important;
+        }
+
+        /* Hide decorative orbs on mobile */
+        .orb {
+          display: none;
+        }
+
+        /* Scroll indicator mobile */
+        section[style*="min-height: 100vh"] > div:last-child {
+          bottom: 1.5rem !important;
+        }
+
+        .scroll-mouse {
+          width: 22px !important;
+          height: 38px !important;
+        }
+
+        /* Brain image mobile */
+        section[style*="min-height: 100vh"] img {
+          max-width: 280px !important;
+        }
+
+        /* Glow rings mobile */
+        .glow-ring {
+          display: none;
+        }
+
+        /* Buttons mobile */
+        .btn-primary,
+        .btn-outline {
+          padding: 0.75rem 1.5rem !important;
+          font-size: 0.9rem !important;
+        }
+
+        /* Typography mobile */
+        h2 {
+          font-size: clamp(1.6rem, 6vw, 2.2rem) !important;
+        }
+
+        h3 {
+          font-size: 1rem !important;
+        }
+
+        .label {
+          font-size: 0.68rem !important;
+        }
+
+        /* Form mobile */
+        .inp {
+          padding: 0.75rem 1rem !important;
+          font-size: 0.9rem !important;
+        }
+
+        /* Trust badges mobile */
+        #contact div[style*="margin-top: 3rem"] {
+          margin-top: 2rem !important;
+        }
+
+        #contact div[style*="margin-top: 3rem"] > div {
+          flex-wrap: wrap !important;
+          gap: 1rem !important;
+        }
+      }
+
+      /* Small mobile (< 480px) */
+      @media (max-width: 480px) {
+        #nav > div {
+          padding: 0 0.75rem !important;
+        }
+
+        .lang-toggle {
+          padding: 0.3rem 0.5rem;
+          font-size: 0.7rem;
+        }
+
+        .lang-flag {
+          font-size: 0.9rem;
+        }
+
+        section[style*="min-height: 100vh"] h1 {
+          font-size: 1.8rem !important;
+        }
+
+        .stat-box {
+          flex-direction: column;
+          text-align: center;
+          padding: 0.6rem 0.8rem !important;
+        }
+
+        .btn-primary,
+        .btn-outline {
+          width: 100%;
+          justify-content: center !important;
+        }
+
+        section[style*="min-height: 100vh"]
+          > div
+          > div:first-child
+          > div[style*="flex-wrap"]:first-of-type {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        section[style*="min-height: 100vh"]
+          > div
+          > div:first-child
+          > div[style*="flex-wrap"]:first-of-type
+          a {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -514,6 +786,7 @@
             </svg>
           </div>
           <span
+            class="logo-text"
             style="
               font-weight: 800;
               font-size: 1.15rem;
