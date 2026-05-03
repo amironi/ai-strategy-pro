@@ -442,6 +442,29 @@
         position: relative;
         z-index: 1;
       }
+
+      /* ── Language toggle ── */
+      .lang-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.7rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      .lang-toggle:hover {
+        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+      .lang-flag {
+        font-size: 1.1rem;
+      }
     </style>
   </head>
   <body>
@@ -502,6 +525,15 @@
         </div>
         <!-- Nav links + CTA -->
         <div style="display: flex; align-items: center; gap: 1.5rem">
+          <!-- Language Toggle -->
+          <button
+            class="lang-toggle"
+            onclick="toggleLanguage()"
+            aria-label="Toggle Language"
+          >
+            <span class="lang-flag" id="lang-flag">🇬🇧</span>
+            <span id="lang-text">EN</span>
+          </button>
           <nav style="display: flex; gap: 1.75rem" class="hidden sm:flex">
             <a
               href="#services"
@@ -513,6 +545,7 @@
               "
               onmouseover="this.style.color = '#e2e8f0'"
               onmouseout="this.style.color = 'rgba(203,213,225,.7)'"
+              data-i18n="navServices"
               >שירותים</a
             >
             <a
@@ -525,6 +558,7 @@
               "
               onmouseover="this.style.color = '#e2e8f0'"
               onmouseout="this.style.color = 'rgba(203,213,225,.7)'"
+              data-i18n="navWhyUs"
               >למה אנחנו</a
             >
             <a
@@ -537,6 +571,7 @@
               "
               onmouseover="this.style.color = '#e2e8f0'"
               onmouseout="this.style.color = 'rgba(203,213,225,.7)'"
+              data-i18n="navMethodology"
               >מתודולוגיה</a
             >
           </nav>
@@ -544,6 +579,7 @@
             href="#contact"
             class="btn-primary"
             style="padding: 0.55rem 1.3rem; font-size: 0.88rem"
+            data-i18n="navCTA"
           >
             בואו נדבר
             <svg
@@ -642,7 +678,7 @@
                 d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.364 6.364-2.121-2.121M6.757 6.757 4.636 4.636m12.728 0-2.121 2.121M6.757 17.243l-2.121 2.121"
               />
             </svg>
-            ייעוץ AI ארגוני
+            <span data-i18n="heroPill">ייעוץ AI ארגוני</span>
           </div>
 
           <h1
@@ -654,10 +690,12 @@
               letter-spacing: -0.02em;
             "
           >
-            הופכים
-            <span class="grad-text-purple"> בינה<br />מלאכותית</span><br />
-            לביצועים עסקיים<br />
-            <span style="color: #f1f5f9">מדידים</span>
+            <span data-i18n="heroTitle1">הופכים</span>
+            <span class="grad-text-purple" data-i18n="heroTitle2">
+              בינה<br />מלאכותית</span
+            ><br />
+            <span data-i18n="heroTitle3">לביצועים עסקיים<br /></span>
+            <span style="color: #f1f5f9" data-i18n="heroTitle4">מדידים</span>
           </h1>
 
           <p
@@ -669,6 +707,7 @@
               max-width: 500px;
               margin-right: 0;
             "
+            data-i18n="heroDesc"
           >
             אנו מסייעים לארגונים להפוך את ה-AI ממושג טכנולוגי ליתרון תחרותי —
             מגיבוש אסטרטגיה ועד יישום והטמעה מלאה.
@@ -687,6 +726,7 @@
               href="#contact"
               class="btn-primary"
               style="padding: 0.85rem 2rem; font-size: 1rem"
+              data-i18n="heroCTA1"
             >
               בואו נדבר
               <svg
@@ -704,6 +744,7 @@
               href="#services"
               class="btn-outline"
               style="padding: 0.85rem 2rem; font-size: 1rem"
+              data-i18n="heroCTA2"
             >
               תחומי ההתמחות
             </a>
@@ -728,6 +769,7 @@
                     font-weight: 600;
                     letter-spacing: 0.06em;
                   "
+                  data-i18n="statProjects"
                 >
                   פרויקטים
                 </div>
@@ -749,6 +791,7 @@
                     font-weight: 600;
                     letter-spacing: 0.06em;
                   "
+                  data-i18n="statOrgs"
                 >
                   ארגונים
                 </div>
@@ -770,6 +813,7 @@
                     font-weight: 600;
                     letter-spacing: 0.06em;
                   "
+                  data-i18n="statROI"
                 >
                   ROI ממוצע
                 </div>
@@ -885,6 +929,7 @@
             letter-spacing: 0.1em;
             font-weight: 600;
           "
+          data-i18n="scrollDown"
           >גלול למטה</span
         >
         <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
@@ -928,7 +973,13 @@
 
       <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
         <div style="text-align: center; margin-bottom: 4rem">
-          <p class="label" style="margin-bottom: 0.75rem">מה אנחנו מציעים</p>
+          <p
+            class="label"
+            style="margin-bottom: 0.75rem"
+            data-i18n="servicesLabel"
+          >
+            מה אנחנו מציעים
+          </p>
           <h2
             style="
               font-size: clamp(1.9rem, 3.5vw, 2.75rem);
@@ -937,6 +988,7 @@
               margin-bottom: 1rem;
               letter-spacing: -0.02em;
             "
+            data-i18n="servicesTitle"
           >
             תחומי ההתמחות שלנו
           </h2>
@@ -948,6 +1000,7 @@
               margin: 0 auto;
               line-height: 1.8;
             "
+            data-i18n="servicesDesc"
           >
             מענה מקצועי מקצה לקצה — מהגדרת האסטרטגיה ועד להטמעה מלאה בארגון
           </p>
@@ -970,14 +1023,19 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc1Title"
             >
               אסטרטגיית AI ומפת דרכים
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>זיהוי הזדמנויות עסקיות לשימוש בבינה מלאכותית</li>
-              <li>מיפוי מוכנות הארגון (Data, תהליכים, טכנולוגיה)</li>
-              <li>בניית Roadmap עם תעדוף יוזמות לפי ROI</li>
-              <li>התאמת ה-AI לאסטרטגיה העסקית הכוללת</li>
+              <li data-i18n="svc1_1">
+                זיהוי הזדמנויות עסקיות לשימוש בבינה מלאכותית
+              </li>
+              <li data-i18n="svc1_2">
+                מיפוי מוכנות הארגון (Data, תהליכים, טכנולוגיה)
+              </li>
+              <li data-i18n="svc1_3">בניית Roadmap עם תעדוף יוזמות לפי ROI</li>
+              <li data-i18n="svc1_4">התאמת ה-AI לאסטרטגיה העסקית הכוללת</li>
             </ul>
           </div>
 
@@ -991,14 +1049,21 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc2Title"
             >
               ארכיטקטורת AI ארגונית
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>תכנון ארכיטקטורה End-to-End לפתרונות AI</li>
-              <li>שילוב פתרונות AI במערכות ליבה (ERP, CRM)</li>
-              <li>תכנון פתרונות מבוססי Agents ו-Copilot</li>
-              <li>התאמה לפלטפורמות ענן מתקדמות (Azure AI)</li>
+              <li data-i18n="svc2_1">
+                תכנון ארכיטקטורה End-to-End לפתרונות AI
+              </li>
+              <li data-i18n="svc2_2">
+                שילוב פתרונות AI במערכות ליבה (ERP, CRM)
+              </li>
+              <li data-i18n="svc2_3">תכנון פתרונות מבוססי Agents ו-Copilot</li>
+              <li data-i18n="svc2_4">
+                התאמה לפלטפורמות ענן מתקדמות (Azure AI)
+              </li>
             </ul>
           </div>
 
@@ -1012,14 +1077,17 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc3Title"
             >
               פתרונות GenAI וסוכני AI
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>פיתוח פתרונות מבוססי LLM ו-Copilots</li>
-              <li>מערכות ידע ארגוניות (RAG / Enterprise Search)</li>
-              <li>אוטומציה חכמה באמצעות סוכני AI</li>
-              <li>שיפור חוויית שירות באמצעות שיחה חכמה</li>
+              <li data-i18n="svc3_1">פיתוח פתרונות מבוססי LLM ו-Copilots</li>
+              <li data-i18n="svc3_2">
+                מערכות ידע ארגוניות (RAG / Enterprise Search)
+              </li>
+              <li data-i18n="svc3_3">אוטומציה חכמה באמצעות סוכני AI</li>
+              <li data-i18n="svc3_4">שיפור חוויית שירות באמצעות שיחה חכמה</li>
             </ul>
           </div>
 
@@ -1033,14 +1101,19 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc4Title"
             >
               דאטה ותשתיות AI
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>הערכת איכות ומוכנות המידע (Data Readiness)</li>
-              <li>תכנון והקמת Data Pipelines ו-Platforms</li>
-              <li>ניהול נתונים, קטלוגים ו-Knowledge Bases</li>
-              <li>אנליטיקה מתקדמת ו-Machine Learning</li>
+              <li data-i18n="svc4_1">
+                הערכת איכות ומוכנות המידע (Data Readiness)
+              </li>
+              <li data-i18n="svc4_2">תכנון והקמת Data Pipelines ו-Platforms</li>
+              <li data-i18n="svc4_3">
+                ניהול נתונים, קטלוגים ו-Knowledge Bases
+              </li>
+              <li data-i18n="svc4_4">אנליטיקה מתקדמת ו-Machine Learning</li>
             </ul>
           </div>
 
@@ -1054,14 +1127,15 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc5Title"
             >
               אוטומציה חכמה ושיפור תהליכים
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>ייעול תהליכים עסקיים באמצעות AI</li>
-              <li>שילוב AI עם מערכות אוטומציה (RPA + AI)</li>
-              <li>הפחתת עלויות תפעול ושיפור פרודוקטיביות</li>
-              <li>זיהוי Quick Wins ליצירת ערך מיידי</li>
+              <li data-i18n="svc5_1">ייעול תהליכים עסקיים באמצעות AI</li>
+              <li data-i18n="svc5_2">שילוב AI עם מערכות אוטומציה (RPA + AI)</li>
+              <li data-i18n="svc5_3">הפחתת עלויות תפעול ושיפור פרודוקטיביות</li>
+              <li data-i18n="svc5_4">זיהוי Quick Wins ליצירת ערך מיידי</li>
             </ul>
           </div>
 
@@ -1075,14 +1149,15 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc6Title"
             >
               ממשל, אבטחה ו-Responsible AI
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>הגדרת מדיניות AI ארגונית</li>
-              <li>ניהול סיכונים, פרטיות וציות לרגולציה</li>
-              <li>יישום עקרונות Responsible AI</li>
-              <li>אבטחת מידע ו-Access Control</li>
+              <li data-i18n="svc6_1">הגדרת מדיניות AI ארגונית</li>
+              <li data-i18n="svc6_2">ניהול סיכונים, פרטיות וציות לרגולציה</li>
+              <li data-i18n="svc6_3">יישום עקרונות Responsible AI</li>
+              <li data-i18n="svc6_4">אבטחת מידע ו-Access Control</li>
             </ul>
           </div>
 
@@ -1096,14 +1171,17 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc7Title"
             >
               יישום, אינטגרציה והטמעה
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>פיתוח פתרונות AI מותאמים (POC → Production)</li>
-              <li>יישום מתודולוגיות MLOps / LLMOps</li>
-              <li>אינטגרציה למערכות קיימות</li>
-              <li>סקיילינג והפעלה בסביבה ארגונית</li>
+              <li data-i18n="svc7_1">
+                פיתוח פתרונות AI מותאמים (POC → Production)
+              </li>
+              <li data-i18n="svc7_2">יישום מתודולוגיות MLOps / LLMOps</li>
+              <li data-i18n="svc7_3">אינטגרציה למערכות קיימות</li>
+              <li data-i18n="svc7_4">סקיילינג והפעלה בסביבה ארגונית</li>
             </ul>
           </div>
 
@@ -1117,14 +1195,15 @@
                 margin-bottom: 0.85rem;
                 text-align: right;
               "
+              data-i18n="svc8Title"
             >
               אימוץ ארגוני והכשרת עובדים
             </h3>
             <ul class="feat-list" style="text-align: right">
-              <li>הדרכות והכשרות AI לארגון</li>
-              <li>פיתוח מיומנויות AI לעובדים ולמנהלים</li>
-              <li>הובלת שינוי ארגוני מבוסס AI</li>
-              <li>הגברת אימוץ ושילוב בעבודה היומיומית</li>
+              <li data-i18n="svc8_1">הדרכות והכשרות AI לארגון</li>
+              <li data-i18n="svc8_2">פיתוח מיומנויות AI לעובדים ולמנהלים</li>
+              <li data-i18n="svc8_3">הובלת שינוי ארגוני מבוסס AI</li>
+              <li data-i18n="svc8_4">הגברת אימוץ ושילוב בעבודה היומיומית</li>
             </ul>
           </div>
         </div>
@@ -1149,7 +1228,13 @@
     >
       <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
         <div style="text-align: center; margin-bottom: 4rem">
-          <p class="label" style="margin-bottom: 0.75rem">למה לעבוד איתנו</p>
+          <p
+            class="label"
+            style="margin-bottom: 0.75rem"
+            data-i18n="whyUsLabel"
+          >
+            למה לעבוד איתנו
+          </p>
           <h2
             style="
               font-size: clamp(1.9rem, 3.5vw, 2.75rem);
@@ -1157,6 +1242,7 @@
               color: #f1f5f9;
               letter-spacing: -0.02em;
             "
+            data-i18n="whyUsTitle"
           >
             הערך העסקי שאתם מקבלים
           </h2>
@@ -1190,6 +1276,7 @@
                 color: #f1f5f9;
                 margin-bottom: 0.75rem;
               "
+              data-i18n="val1Title"
             >
               שיפור קבלת החלטות
             </h3>
@@ -1199,6 +1286,7 @@
                 font-size: 0.9rem;
                 line-height: 1.75;
               "
+              data-i18n="val1Desc"
             >
               החלטות מבוססות נתונים ותובנות AI לכל רמות הארגון
             </p>
@@ -1225,6 +1313,7 @@
                 color: #f1f5f9;
                 margin-bottom: 0.75rem;
               "
+              data-i18n="val2Title"
             >
               הגדלת פרודוקטיביות
             </h3>
@@ -1234,6 +1323,7 @@
                 font-size: 0.9rem;
                 line-height: 1.75;
               "
+              data-i18n="val2Desc"
             >
               צמצום עלויות תפעול ושיפור יעילות באמצעות אוטומציה חכמה
             </p>
@@ -1260,6 +1350,7 @@
                 color: #f1f5f9;
                 margin-bottom: 0.75rem;
               "
+              data-i18n="val3Title"
             >
               האצת חדשנות
             </h3>
@@ -1269,6 +1360,7 @@
                 font-size: 0.9rem;
                 line-height: 1.75;
               "
+              data-i18n="val3Desc"
             >
               מנוע צמיחה עסקית מבוסס טכנולוגיות AI מתקדמות
             </p>
@@ -1295,6 +1387,7 @@
                 color: #f1f5f9;
                 margin-bottom: 0.75rem;
               "
+              data-i18n="val4Title"
             >
               יתרון תחרותי
             </h3>
@@ -1304,6 +1397,7 @@
                 font-size: 0.9rem;
                 line-height: 1.75;
               "
+              data-i18n="val4Desc"
             >
               יצירת יתרון עסקי מתמשך באמצעות פתרונות AI ייחודיים
             </p>
@@ -1335,7 +1429,13 @@
 
       <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
         <div style="text-align: center; margin-bottom: 4rem">
-          <p class="label" style="margin-bottom: 0.75rem">המתודולוגיה שלנו</p>
+          <p
+            class="label"
+            style="margin-bottom: 0.75rem"
+            data-i18n="methodLabel"
+          >
+            המתודולוגיה שלנו
+          </p>
           <h2
             style="
               font-size: clamp(1.9rem, 3.5vw, 2.75rem);
@@ -1343,6 +1443,7 @@
               color: #f1f5f9;
               letter-spacing: -0.02em;
             "
+            data-i18n="methodTitle"
           >
             איך אנחנו עובדים?
           </h2>
@@ -1403,6 +1504,7 @@
                   margin-bottom: 0.85rem;
                   text-align: right;
                 "
+                data-i18n="step1Title"
               >
                 מיפוי והבנה
               </h3>
@@ -1413,6 +1515,7 @@
                   text-align: right;
                   font-size: 0.95rem;
                 "
+                data-i18n="step1Desc"
               >
                 מיפוי מעמיק של הצרכים העסקיים, זיהוי הזדמנויות ובחינת המוכנות
                 הארגונית ליישום AI
@@ -1463,6 +1566,7 @@
                   margin-bottom: 0.85rem;
                   text-align: right;
                 "
+                data-i18n="step2Title"
               >
                 תכנון ופיתוח
               </h3>
@@ -1473,6 +1577,7 @@
                   text-align: right;
                   font-size: 0.95rem;
                 "
+                data-i18n="step2Desc"
               >
                 תכנון ארכיטקטורה, פיתוח פתרונות מותאמים והוכחת ערך עסקי באמצעות
                 POC
@@ -1504,6 +1609,7 @@
                   margin-bottom: 0.85rem;
                   text-align: right;
                 "
+                data-i18n="step3Title"
               >
                 הטמעה והרחבה
               </h3>
@@ -1514,6 +1620,7 @@
                   text-align: right;
                   font-size: 0.95rem;
                 "
+                data-i18n="step3Desc"
               >
                 הטמעה מלאה בארגון, אופטימיזציה מתמדת והרחבה לתחומים נוספים
               </p>
@@ -1541,7 +1648,13 @@
     >
       <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
         <div style="text-align: center; margin-bottom: 4rem">
-          <p class="label" style="margin-bottom: 0.75rem">צרו קשר</p>
+          <p
+            class="label"
+            style="margin-bottom: 0.75rem"
+            data-i18n="contactLabel"
+          >
+            צרו קשר
+          </p>
           <h2
             style="
               font-size: clamp(1.9rem, 3.5vw, 2.75rem);
@@ -1549,6 +1662,7 @@
               color: #f1f5f9;
               letter-spacing: -0.02em;
             "
+            data-i18n="contactTitle"
           >
             מוכנים להתחיל?
           </h2>
@@ -1572,6 +1686,7 @@
                 margin-bottom: 1.5rem;
                 text-align: right;
               "
+              data-i18n="formTitle"
             >
               שלחו פנייה
             </h3>
@@ -1579,13 +1694,24 @@
               onsubmit="submitForm(event)"
               style="display: flex; flex-direction: column; gap: 1rem"
             >
-              <input type="text" placeholder="שם מלא" class="inp" />
-              <input type="tel" placeholder="טלפון" class="inp" />
+              <input
+                type="text"
+                placeholder="שם מלא"
+                class="inp"
+                data-i18n="formName"
+              />
+              <input
+                type="tel"
+                placeholder="טלפון"
+                class="inp"
+                data-i18n="formPhone"
+              />
               <textarea
                 placeholder="ספרו לנו על הצרכים שלכם..."
                 rows="4"
                 class="inp"
                 style="resize: none"
+                data-i18n="formMessage"
               ></textarea>
               <button
                 type="submit"
@@ -1599,6 +1725,7 @@
                   border: none;
                   cursor: pointer;
                 "
+                data-i18n="formSubmit"
               >
                 שלחו פנייה
                 <svg
@@ -1625,6 +1752,7 @@
                 color: var(--text-dim);
                 margin-bottom: 2.5rem;
               "
+              data-i18n="contactDesc"
             >
               השאירו פרטים ונחזור אליכם תוך 24 שעות עם הצעה מותאמת לצרכים שלכם.
             </p>
@@ -1702,6 +1830,7 @@
                   text-align: center;
                   margin-bottom: 1rem;
                 "
+                data-i18n="workWith"
               >
                 אנחנו עובדים עם
               </p>
@@ -1806,7 +1935,10 @@
             >AI Strategy Pro</span
           >
         </div>
-        <p style="color: rgba(203, 213, 225, 0.35); font-size: 0.85rem">
+        <p
+          style="color: rgba(203, 213, 225, 0.35); font-size: 0.85rem"
+          data-i18n="footerRights"
+        >
           © 2026 כל הזכויות שמורות
         </p>
         <div style="display: flex; gap: 1.5rem">
@@ -1819,6 +1951,7 @@
             "
             onmouseover="this.style.color = '#e2e8f0'"
             onmouseout="this.style.color = 'rgba(203,213,225,.45)'"
+            data-i18n="footerServices"
             >שירותים</a
           >
           <a
@@ -1830,6 +1963,7 @@
             "
             onmouseover="this.style.color = '#e2e8f0'"
             onmouseout="this.style.color = 'rgba(203,213,225,.45)'"
+            data-i18n="footerContact"
             >צרו קשר</a
           >
         </div>
@@ -1837,16 +1971,308 @@
     </footer>
 
     <script>
+      // Language translations
+      const translations = {
+        he: {
+          navServices: "שירותים",
+          navWhyUs: "למה אנחנו",
+          navMethodology: "מתודולוגיה",
+          navCTA: "בואו נדבר",
+          heroPill: "ייעוץ AI ארגוני",
+          heroTitle1: "הופכים",
+          heroTitle2: "בינה<br />מלאכותית",
+          heroTitle3: "לביצועים עסקיים<br />",
+          heroTitle4: "מדידים",
+          heroDesc:
+            "אנו מסייעים לארגונים להפוך את ה-AI ממושג טכנולוגי ליתרון תחרותי — מגיבוש אסטרטגיה ועד יישום והטמעה מלאה.",
+          heroCTA1: "בואו נדבר",
+          heroCTA2: "תחומי ההתמחות",
+          statProjects: "פרויקטים",
+          statOrgs: "ארגונים",
+          statROI: "ROI ממוצע",
+          scrollDown: "גלול למטה",
+          servicesLabel: "מה אנחנו מציעים",
+          servicesTitle: "תחומי ההתמחות שלנו",
+          servicesDesc:
+            "מענה מקצועי מקצה לקצה — מהגדרת האסטרטגיה ועד להטמעה מלאה בארגון",
+          svc1Title: "אסטרטגיית AI ומפת דרכים",
+          svc1_1: "זיהוי הזדמנויות עסקיות לשימוש בבינה מלאכותית",
+          svc1_2: "מיפוי מוכנות הארגון (Data, תהליכים, טכנולוגיה)",
+          svc1_3: "בניית Roadmap עם תעדוף יוזמות לפי ROI",
+          svc1_4: "התאמת ה-AI לאסטרטגיה העסקית הכוללת",
+          svc2Title: "ארכיטקטורת AI ארגונית",
+          svc2_1: "תכנון ארכיטקטורה End-to-End לפתרונות AI",
+          svc2_2: "שילוב פתרונות AI במערכות ליבה (ERP, CRM)",
+          svc2_3: "תכנון פתרונות מבוססי Agents ו-Copilot",
+          svc2_4: "התאמה לפלטפורמות ענן מתקדמות (Azure AI)",
+          svc3Title: "פתרונות GenAI וסוכני AI",
+          svc3_1: "פיתוח פתרונות מבוססי LLM ו-Copilots",
+          svc3_2: "מערכות ידע ארגוניות (RAG / Enterprise Search)",
+          svc3_3: "אוטומציה חכמה באמצעות סוכני AI",
+          svc3_4: "שיפור חוויית שירות באמצעות שיחה חכמה",
+          svc4Title: "דאטה ותשתיות AI",
+          svc4_1: "הערכת איכות ומוכנות המידע (Data Readiness)",
+          svc4_2: "תכנון והקמת Data Pipelines ו-Platforms",
+          svc4_3: "ניהול נתונים, קטלוגים ו-Knowledge Bases",
+          svc4_4: "אנליטיקה מתקדמת ו-Machine Learning",
+          svc5Title: "אוטומציה חכמה ושיפור תהליכים",
+          svc5_1: "ייעול תהליכים עסקיים באמצעות AI",
+          svc5_2: "שילוב AI עם מערכות אוטומציה (RPA + AI)",
+          svc5_3: "הפחתת עלויות תפעול ושיפור פרודוקטיביות",
+          svc5_4: "זיהוי Quick Wins ליצירת ערך מיידי",
+          svc6Title: "ממשל, אבטחה ו-Responsible AI",
+          svc6_1: "הגדרת מדיניות AI ארגונית",
+          svc6_2: "ניהול סיכונים, פרטיות וציות לרגולציה",
+          svc6_3: "יישום עקרונות Responsible AI",
+          svc6_4: "אבטחת מידע ו-Access Control",
+          svc7Title: "יישום, אינטגרציה והטמעה",
+          svc7_1: "פיתוח פתרונות AI מותאמים (POC → Production)",
+          svc7_2: "יישום מתודולוגיות MLOps / LLMOps",
+          svc7_3: "אינטגרציה למערכות קיימות",
+          svc7_4: "סקיילינג והפעלה בסביבה ארגונית",
+          svc8Title: "אימוץ ארגוני והכשרת עובדים",
+          svc8_1: "הדרכות והכשרות AI לארגון",
+          svc8_2: "פיתוח מיומנויות AI לעובדים ולמנהלים",
+          svc8_3: "הובלת שינוי ארגוני מבוסס AI",
+          svc8_4: "הגברת אימוץ ושילוב בעבודה היומיומית",
+          whyUsLabel: "למה לעבוד איתנו",
+          whyUsTitle: "הערך העסקי שאתם מקבלים",
+          val1Title: "שיפור קבלת החלטות",
+          val1Desc: "החלטות מבוססות נתונים ותובנות AI לכל רמות הארגון",
+          val2Title: "הגדלת פרודוקטיביות",
+          val2Desc: "צמצום עלויות תפעול ושיפור יעילות באמצעות אוטומציה חכמה",
+          val3Title: "האצת חדשנות",
+          val3Desc: "מנוע צמיחה עסקית מבוסס טכנולוגיות AI מתקדמות",
+          val4Title: "יתרון תחרותי",
+          val4Desc: "יצירת יתרון עסקי מתמשך באמצעות פתרונות AI ייחודיים",
+          methodLabel: "המתודולוגיה שלנו",
+          methodTitle: "איך אנחנו עובדים?",
+          step1Title: "מיפוי והבנה",
+          step1Desc:
+            "מיפוי מעמיק של הצרכים העסקיים, זיהוי הזדמנויות ובחינת המוכנות הארגונית ליישום AI",
+          step2Title: "תכנון ופיתוח",
+          step2Desc:
+            "תכנון ארכיטקטורה, פיתוח פתרונות מותאמים והוכחת ערך עסקי באמצעות POC",
+          step3Title: "הטמעה והרחבה",
+          step3Desc:
+            "הטמעה מלאה בארגון, אופטימיזציה מתמדת והרחבה לתחומים נוספים",
+          contactLabel: "צרו קשר",
+          contactTitle: "מוכנים להתחיל?",
+          formTitle: "שלחו פנייה",
+          formName: "שם מלא",
+          formPhone: "טלפון",
+          formMessage: "ספרו לנו על הצרכים שלכם...",
+          formSubmit: "שלחו פנייה",
+          formSuccess: "✓ הפנייה נשלחה בהצלחה!",
+          contactDesc:
+            "השאירו פרטים ונחזור אליכם תוך 24 שעות עם הצעה מותאמת לצרכים שלכם.",
+          workWith: "אנחנו עובדים עם",
+          footerRights: "© 2026 כל הזכויות שמורות",
+          footerServices: "שירותים",
+          footerContact: "צרו קשר",
+        },
+        en: {
+          navServices: "Services",
+          navWhyUs: "Why Us",
+          navMethodology: "Methodology",
+          navCTA: "Let's Talk",
+          heroPill: "Enterprise AI Consulting",
+          heroTitle1: "Transforming",
+          heroTitle2: "Artificial<br />Intelligence",
+          heroTitle3: "Into Measurable<br />",
+          heroTitle4: "Business Results",
+          heroDesc:
+            "We help organizations turn AI from a technological concept into a competitive advantage — from strategy formulation to full implementation and adoption.",
+          heroCTA1: "Let's Talk",
+          heroCTA2: "Our Expertise",
+          statProjects: "Projects",
+          statOrgs: "Organizations",
+          statROI: "Avg ROI",
+          scrollDown: "Scroll Down",
+          servicesLabel: "What We Offer",
+          servicesTitle: "Our Areas of Expertise",
+          servicesDesc:
+            "End-to-end professional solutions — from strategy definition to full organizational implementation",
+          svc1Title: "AI Strategy & Roadmap",
+          svc1_1: "Identifying business opportunities for AI implementation",
+          svc1_2:
+            "Mapping organizational readiness (Data, processes, technology)",
+          svc1_3: "Building a Roadmap with ROI-based initiative prioritization",
+          svc1_4: "Aligning AI with overall business strategy",
+          svc2Title: "Enterprise AI Architecture",
+          svc2_1: "End-to-End architecture planning for AI solutions",
+          svc2_2: "Integrating AI solutions with core systems (ERP, CRM)",
+          svc2_3: "Designing Agent-based and Copilot solutions",
+          svc2_4: "Adapting to advanced cloud platforms (Azure AI)",
+          svc3Title: "GenAI & AI Agent Solutions",
+          svc3_1: "Developing LLM-based solutions and Copilots",
+          svc3_2: "Enterprise knowledge systems (RAG / Enterprise Search)",
+          svc3_3: "Smart automation using AI agents",
+          svc3_4:
+            "Enhancing service experience through intelligent conversation",
+          svc4Title: "Data & AI Infrastructure",
+          svc4_1: "Assessing data quality and readiness (Data Readiness)",
+          svc4_2: "Planning and building Data Pipelines & Platforms",
+          svc4_3: "Managing data, catalogs, and Knowledge Bases",
+          svc4_4: "Advanced analytics and Machine Learning",
+          svc5Title: "Smart Automation & Process Improvement",
+          svc5_1: "Optimizing business processes using AI",
+          svc5_2: "Integrating AI with automation systems (RPA + AI)",
+          svc5_3: "Reducing operational costs and improving productivity",
+          svc5_4: "Identifying Quick Wins for immediate value creation",
+          svc6Title: "Governance, Security & Responsible AI",
+          svc6_1: "Defining organizational AI policy",
+          svc6_2: "Managing risks, privacy, and regulatory compliance",
+          svc6_3: "Implementing Responsible AI principles",
+          svc6_4: "Data security and Access Control",
+          svc7Title: "Implementation, Integration & Adoption",
+          svc7_1: "Developing custom AI solutions (POC → Production)",
+          svc7_2: "Implementing MLOps / LLMOps methodologies",
+          svc7_3: "Integration with existing systems",
+          svc7_4: "Scaling and deployment in enterprise environment",
+          svc8Title: "Organizational Adoption & Employee Training",
+          svc8_1: "AI training and workshops for the organization",
+          svc8_2: "Developing AI skills for employees and managers",
+          svc8_3: "Leading AI-based organizational change",
+          svc8_4: "Increasing adoption and integration into daily work",
+          whyUsLabel: "Why Work With Us",
+          whyUsTitle: "The Business Value You Receive",
+          val1Title: "Improved Decision Making",
+          val1Desc:
+            "Data-driven decisions and AI insights for all organizational levels",
+          val2Title: "Increased Productivity",
+          val2Desc:
+            "Reducing operational costs and improving efficiency through smart automation",
+          val3Title: "Accelerated Innovation",
+          val3Desc: "Business growth engine based on advanced AI technologies",
+          val4Title: "Competitive Advantage",
+          val4Desc:
+            "Creating sustainable business advantage through unique AI solutions",
+          methodLabel: "Our Methodology",
+          methodTitle: "How We Work?",
+          step1Title: "Discovery & Understanding",
+          step1Desc:
+            "In-depth mapping of business needs, identifying opportunities, and assessing organizational readiness for AI implementation",
+          step2Title: "Design & Development",
+          step2Desc:
+            "Architecture planning, developing custom solutions, and proving business value through POC",
+          step3Title: "Implementation & Scale",
+          step3Desc:
+            "Full organizational implementation, continuous optimization, and expansion to additional areas",
+          contactLabel: "Contact Us",
+          contactTitle: "Ready to Start?",
+          formTitle: "Send Inquiry",
+          formName: "Full Name",
+          formPhone: "Phone",
+          formMessage: "Tell us about your needs...",
+          formSubmit: "Send Inquiry",
+          formSuccess: "✓ Inquiry sent successfully!",
+          contactDesc:
+            "Leave your details and we'll get back to you within 24 hours with a proposal tailored to your needs.",
+          workWith: "We Work With",
+          footerRights: "© 2026 All Rights Reserved",
+          footerServices: "Services",
+          footerContact: "Contact",
+        },
+      };
+
+      // Language toggle function
+      let currentLang = localStorage.getItem("language") || "he";
+
+      function toggleLanguage() {
+        currentLang = currentLang === "he" ? "en" : "he";
+        localStorage.setItem("language", currentLang);
+        applyLanguage(currentLang);
+      }
+
+      function applyLanguage(lang) {
+        const html = document.documentElement;
+        const t = translations[lang];
+
+        // Update HTML attributes
+        html.setAttribute("lang", lang);
+        html.setAttribute("dir", lang === "he" ? "rtl" : "ltr");
+
+        // Update language toggle button
+        document.getElementById("lang-flag").textContent =
+          lang === "he" ? "🇬🇧" : "🇮🇱";
+        document.getElementById("lang-text").textContent =
+          lang === "he" ? "EN" : "HE";
+
+        // Update all text content
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (t[key]) {
+            if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+              el.placeholder = t[key];
+            } else {
+              el.innerHTML = t[key];
+            }
+          }
+        });
+
+        // Update text alignment for specific elements
+        const textAlignElements = document.querySelectorAll(
+          '.feat-list, h3, p[style*="text-align"]',
+        );
+        textAlignElements.forEach((el) => {
+          const style = el.getAttribute("style") || "";
+          if (lang === "en") {
+            el.setAttribute(
+              "style",
+              style.replace(/text-align:\s*right/g, "text-align: left"),
+            );
+          } else {
+            el.setAttribute(
+              "style",
+              style.replace(/text-align:\s*left/g, "text-align: right"),
+            );
+          }
+        });
+
+        // Update flex direction for RTL/LTR
+        const flexEndElements = document.querySelectorAll(
+          '[style*="justify-content: flex-end"]',
+        );
+        flexEndElements.forEach((el) => {
+          const style = el.getAttribute("style") || "";
+          if (lang === "en") {
+            el.setAttribute(
+              "style",
+              style.replace(
+                /justify-content:\s*flex-end/g,
+                "justify-content: flex-start",
+              ),
+            );
+          } else {
+            el.setAttribute(
+              "style",
+              style.replace(
+                /justify-content:\s*flex-start/g,
+                "justify-content: flex-end",
+              ),
+            );
+          }
+        });
+      }
+
+      // Initialize language on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        applyLanguage(currentLang);
+      });
+
       // Form submit
       function submitForm(e) {
         e.preventDefault();
         const btn = document.getElementById("submit-btn");
-        btn.innerHTML = "✓ הפנייה נשלחה בהצלחה!";
+        const t = translations[currentLang];
+        btn.innerHTML = t.formSuccess;
         btn.style.background = "linear-gradient(135deg,#059669,#10b981)";
         btn.style.boxShadow = "0 4px 24px rgba(16,185,129,0.4)";
         setTimeout(() => {
           btn.innerHTML =
-            'שלחו פנייה <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
+            t.formSubmit +
+            ' <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
           btn.style.background = "";
           btn.style.boxShadow = "";
           e.target.reset();
