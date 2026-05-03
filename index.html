@@ -1678,7 +1678,16 @@
         >
           <!-- Form -->
           <div class="glass" style="border-radius: 24px; padding: 2.5rem">
+            <!-- Success state -->
+            <div id="form-success-box" style="display:none; text-align:center; padding: 2rem 0;">
+              <div style="width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#059669,#10b981); display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h3 id="form-success-title" style="font-size:1.3rem; font-weight:800; color:#f1f5f9; margin-bottom:0.6rem;">הפנייה נשלחה!</h3>
+              <p id="form-success-desc" style="color:rgba(203,213,225,0.65); font-size:0.95rem; line-height:1.7;">נחזור אליכם תוך 24 שעות.</p>
+            </div>
             <h3
+              id="form-heading"
               style="
                 font-size: 1.2rem;
                 font-weight: 800;
@@ -1691,28 +1700,43 @@
               שלחו פנייה
             </h3>
             <form
+              id="contact-form"
               onsubmit="submitForm(event)"
               style="display: flex; flex-direction: column; gap: 1rem"
             >
               <input
                 type="text"
+                name="name"
                 placeholder="שם מלא"
                 class="inp"
+                required
                 data-i18n="formName"
               />
               <input
+                type="email"
+                name="email"
+                placeholder="אימייל"
+                class="inp"
+                required
+                data-i18n="formEmail"
+              />
+              <input
                 type="tel"
+                name="phone"
                 placeholder="טלפון"
                 class="inp"
                 data-i18n="formPhone"
               />
               <textarea
+                name="message"
                 placeholder="ספרו לנו על הצרכים שלכם..."
                 rows="4"
                 class="inp"
                 style="resize: none"
+                required
                 data-i18n="formMessage"
               ></textarea>
+              <div id="form-error" style="display:none; color:#f87171; font-size:0.88rem; text-align:right;"></div>
               <button
                 type="submit"
                 id="submit-btn"
@@ -2060,6 +2084,7 @@
           contactTitle: "מוכנים להתחיל?",
           formTitle: "שלחו פנייה",
           formName: "שם מלא",
+          formEmail: "אימייל",
           formPhone: "טלפון",
           formMessage: "ספרו לנו על הצרכים שלכם...",
           formSubmit: "שלחו פנייה",
@@ -2163,6 +2188,7 @@
           contactTitle: "Ready to Start?",
           formTitle: "Send Inquiry",
           formName: "Full Name",
+          formEmail: "Email",
           formPhone: "Phone",
           formMessage: "Tell us about your needs...",
           formSubmit: "Send Inquiry",
@@ -2262,21 +2288,54 @@
       });
 
       // Form submit
-      function submitForm(e) {
+      async function submitForm(e) {
         e.preventDefault();
         const btn = document.getElementById("submit-btn");
+        const errorDiv = document.getElementById("form-error");
         const t = translations[currentLang];
-        btn.innerHTML = t.formSuccess;
-        btn.style.background = "linear-gradient(135deg,#059669,#10b981)";
-        btn.style.boxShadow = "0 4px 24px rgba(16,185,129,0.4)";
-        setTimeout(() => {
+        const form = e.target;
+
+        errorDiv.style.display = "none";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+        btn.style.cursor = "not-allowed";
+        btn.innerHTML =
+          (currentLang === "he" ? "שולח..." : "Sending...") +
+          ' <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" opacity=".3"/></svg>';
+
+        try {
+          const data = new FormData(form);
+          const res = await fetch("https://formsubmit.co/ajax/am5050@gmail.com", {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: data,
+          });
+          const json = await res.json();
+          if (json.success === "true" || json.success === true) {
+            form.reset();
+            // Hide form and heading, show success box
+            form.style.display = "none";
+            document.getElementById("form-heading").style.display = "none";
+            const box = document.getElementById("form-success-box");
+            const isHe = currentLang === "he";
+            document.getElementById("form-success-title").textContent = isHe ? "הפנייה נשלחה בהצלחה! ✓" : "Inquiry Sent Successfully! ✓";
+            document.getElementById("form-success-desc").textContent = isHe ? "נחזור אליכם תוך 24 שעות עם הצעה מותאמת." : "We'll get back to you within 24 hours with a tailored proposal.";
+            box.style.display = "block";
+          } else {
+            throw new Error("submission failed");
+          }
+        } catch {
+          errorDiv.textContent = currentLang === "he"
+            ? "שגיאה בשליחה — נסו שוב או כתבו ישירות לאימייל."
+            : "Submission error — please try again or email us directly.";
+          errorDiv.style.display = "block";
           btn.innerHTML =
             t.formSubmit +
             ' <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
-          btn.style.background = "";
-          btn.style.boxShadow = "";
-          e.target.reset();
-        }, 3500);
+          btn.style.opacity = "1";
+          btn.disabled = false;
+          btn.style.cursor = "pointer";
+        }
       }
 
       // Navbar scroll opacity
