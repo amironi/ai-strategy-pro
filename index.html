@@ -1,0 +1,1898 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Strategy Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #050a14;
+        --bg-2: #080e1c;
+        --purple: #8b5cf6;
+        --blue: #3b82f6;
+        --cyan: #06b6d4;
+        --card-bg: rgba(255, 255, 255, 0.035);
+        --card-border: rgba(255, 255, 255, 0.07);
+        --text-dim: rgba(203, 213, 225, 0.65);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Assistant", sans-serif;
+        background-color: var(--bg);
+        color: #e2e8f0;
+        overflow-x: hidden;
+      }
+
+      /* ── Animated grid background ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── Gradient blob orbs ── */
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── Glass card ── */
+      .glass {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      /* ── Gradient text ── */
+      .grad-text {
+        background: linear-gradient(
+          135deg,
+          #a78bfa 0%,
+          #60a5fa 50%,
+          #34d399 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .grad-text-purple {
+        background: linear-gradient(135deg, #c084fc, #818cf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* ── Gradient button ── */
+      .btn-primary {
+        background: linear-gradient(135deg, #7c3aed, #3b82f6);
+        color: #fff;
+        font-weight: 700;
+        border-radius: 14px;
+        transition:
+          opacity 0.2s,
+          transform 0.2s,
+          box-shadow 0.2s;
+        box-shadow: 0 4px 24px rgba(124, 58, 237, 0.35);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-primary:hover {
+        opacity: 0.92;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(124, 58, 237, 0.5);
+      }
+      .btn-outline {
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.05);
+        color: #e2e8f0;
+        font-weight: 600;
+        border-radius: 14px;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-outline:hover {
+        border-color: rgba(139, 92, 246, 0.5);
+        background: rgba(139, 92, 246, 0.1);
+      }
+
+      /* ── Service card ── */
+      .svc-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        transition:
+          border-color 0.3s,
+          background 0.3s,
+          transform 0.3s,
+          box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .svc-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.08) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: inherit;
+      }
+      .svc-card:hover {
+        border-color: rgba(139, 92, 246, 0.4);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);
+      }
+      .svc-card:hover::before {
+        opacity: 1;
+      }
+
+      /* ── Icon badge ── */
+      .icon-badge {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.2),
+          rgba(59, 130, 246, 0.15)
+        );
+        border: 1px solid rgba(139, 92, 246, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        margin-bottom: 1.1rem;
+      }
+
+      /* ── Bullet list ── */
+      .feat-list {
+        list-style: none;
+      }
+      .feat-list li {
+        position: relative;
+        padding-right: 1.2rem;
+        color: var(--text-dim);
+        font-size: 0.875rem;
+        line-height: 1.65;
+        margin-bottom: 0.4rem;
+      }
+      .feat-list li::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0.55rem;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      }
+
+      /* ── Section label ── */
+      .label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #a78bfa;
+      }
+
+      /* ── Pill tag ── */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.9rem;
+        border-radius: 9999px;
+        background: rgba(139, 92, 246, 0.12);
+        border: 1px solid rgba(139, 92, 246, 0.28);
+        font-size: 0.82rem;
+        color: #c084fc;
+        font-weight: 600;
+      }
+
+      /* ── Divider ── */
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(139, 92, 246, 0.35) 40%,
+          rgba(59, 130, 246, 0.35) 60%,
+          transparent 100%
+        );
+      }
+
+      /* ── Value card ── */
+      .val-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s,
+          border-color 0.3s;
+      }
+      .val-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 48px rgba(139, 92, 246, 0.12);
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+      .val-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        margin: 0 auto 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.9rem;
+      }
+
+      /* ── Step card ── */
+      .step-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+      .step-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 24px 64px rgba(139, 92, 246, 0.15);
+      }
+      .step-num {
+        font-size: 4.5rem;
+        font-weight: 900;
+        line-height: 1;
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.5),
+          rgba(59, 130, 246, 0.2)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+      }
+      .step-badge {
+        display: inline-block;
+        padding: 0.25rem 0.8rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        background: rgba(139, 92, 246, 0.18);
+        color: #c084fc;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        margin-bottom: 1.2rem;
+      }
+
+      /* ── Form inputs ── */
+      .inp {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: #e2e8f0;
+        padding: 0.85rem 1.1rem;
+        font-size: 0.95rem;
+        font-family: "Assistant", sans-serif;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .inp::placeholder {
+        color: rgba(255, 255, 255, 0.28);
+      }
+      .inp:focus {
+        border-color: rgba(139, 92, 246, 0.6);
+        background: rgba(139, 92, 246, 0.06);
+      }
+
+      /* ── Navbar ── */
+      #nav {
+        position: fixed;
+        inset-inline: 0;
+        top: 0;
+        z-index: 100;
+        background: rgba(5, 10, 20, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        transition: background 0.3s;
+      }
+
+      /* ── Scroll indicator ── */
+      .scroll-mouse {
+        width: 26px;
+        height: 44px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 13px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .scroll-wheel {
+        width: 3px;
+        height: 7px;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 2px;
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: wheel 2s infinite;
+      }
+      @keyframes wheel {
+        0% {
+          top: 6px;
+          opacity: 1;
+        }
+        75% {
+          top: 24px;
+          opacity: 0;
+        }
+        100% {
+          top: 6px;
+          opacity: 0;
+        }
+      }
+
+      /* ── Hero glow ring ── */
+      .glow-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid;
+        animation: pulse-ring 4s ease-in-out infinite;
+      }
+      @keyframes pulse-ring {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.1;
+          transform: scale(1.06);
+        }
+      }
+
+      /* ── Contact icon ── */
+      .cta-icon {
+        width: 46px;
+        height: 46px;
+        background: rgba(59, 130, 246, 0.15);
+        border: 1px solid rgba(59, 130, 246, 0.25);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      /* ── Stat badge ── */
+      .stat-box {
+        background: rgba(5, 10, 20, 0.85);
+        border: 1px solid rgba(139, 92, 246, 0.25);
+        border-radius: 14px;
+        padding: 0.9rem 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        backdrop-filter: blur(10px);
+      }
+      .stat-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 8px #10b981;
+        flex-shrink: 0;
+        animation: blink 2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      /* ── Section spacing ── */
+      section {
+        position: relative;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════ -->
+    <header id="nav">
+      <div
+        style="
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+          height: 70px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <!-- Logo -->
+        <div style="display: flex; align-items: center; gap: 10px">
+          <div
+            style="
+              width: 36px;
+              height: 36px;
+              border-radius: 10px;
+              background: linear-gradient(135deg, #7c3aed, #3b82f6);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+            "
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2.2"
+            >
+              <path
+                d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"
+              />
+              <path
+                d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"
+              />
+            </svg>
+          </div>
+          <span
+            style="
+              font-weight: 800;
+              font-size: 1.15rem;
+              color: #fff;
+              letter-spacing: -0.01em;
+            "
+            >AI Strategy Pro</span
+          >
+        </div>
+        <!-- Nav links + CTA -->
+        <div style="display: flex; align-items: center; gap: 1.5rem">
+          <nav style="display: flex; gap: 1.75rem" class="hidden sm:flex">
+            <a
+              href="#services"
+              style="
+                color: rgba(203, 213, 225, 0.7);
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: color 0.2s;
+              "
+              onmouseover="this.style.color = '#e2e8f0'"
+              onmouseout="this.style.color = 'rgba(203,213,225,.7)'"
+              >שירותים</a
+            >
+            <a
+              href="#why-us"
+              style="
+                color: rgba(203, 213, 225, 0.7);
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: color 0.2s;
+              "
+              onmouseover="this.style.color = '#e2e8f0'"
+              onmouseout="this.style.color = 'rgba(203,213,225,.7)'"
+              >למה אנחנו</a
+            >
+            <a
+              href="#methodology"
+              style="
+                color: rgba(203, 213, 225, 0.7);
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: color 0.2s;
+              "
+              onmouseover="this.style.color = '#e2e8f0'"
+              onmouseout="this.style.color = 'rgba(203,213,225,.7)'"
+              >מתודולוגיה</a
+            >
+          </nav>
+          <a
+            href="#contact"
+            class="btn-primary"
+            style="padding: 0.55rem 1.3rem; font-size: 0.88rem"
+          >
+            בואו נדבר
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="m5 12 7 7 7-7M12 19V5" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+    <section
+      style="
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 70px;
+        overflow: hidden;
+        background:
+          radial-gradient(
+            ellipse 70% 60% at 65% 45%,
+            rgba(59, 130, 246, 0.09) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 50% 50% at 20% 60%,
+            rgba(139, 92, 246, 0.1) 0%,
+            transparent 65%
+          ),
+          var(--bg);
+      "
+    >
+      <!-- Orbs -->
+      <div
+        class="orb"
+        style="
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(
+            circle,
+            rgba(139, 92, 246, 0.18),
+            transparent 70%
+          );
+          top: -100px;
+          right: -120px;
+        "
+      ></div>
+      <div
+        class="orb"
+        style="
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.12),
+            transparent 70%
+          );
+          bottom: -80px;
+          left: -80px;
+        "
+      ></div>
+
+      <div
+        style="
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 5rem 1.5rem;
+          width: 100%;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 5rem;
+          align-items: center;
+        "
+      >
+        <!-- Right: Text -->
+        <div style="text-align: right; position: relative; z-index: 2">
+          <div class="pill" style="margin-bottom: 1.5rem">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.364 6.364-2.121-2.121M6.757 6.757 4.636 4.636m12.728 0-2.121 2.121M6.757 17.243l-2.121 2.121"
+              />
+            </svg>
+            ייעוץ AI ארגוני
+          </div>
+
+          <h1
+            style="
+              font-size: clamp(2.6rem, 5.5vw, 4rem);
+              font-weight: 900;
+              line-height: 1.12;
+              margin-bottom: 1.5rem;
+              letter-spacing: -0.02em;
+            "
+          >
+            הופכים
+            <span class="grad-text-purple"> בינה<br />מלאכותית</span><br />
+            לביצועים עסקיים<br />
+            <span style="color: #f1f5f9">מדידים</span>
+          </h1>
+
+          <p
+            style="
+              font-size: 1.05rem;
+              line-height: 1.85;
+              color: var(--text-dim);
+              margin-bottom: 2.5rem;
+              max-width: 500px;
+              margin-right: 0;
+            "
+          >
+            אנו מסייעים לארגונים להפוך את ה-AI ממושג טכנולוגי ליתרון תחרותי —
+            מגיבוש אסטרטגיה ועד יישום והטמעה מלאה.
+          </p>
+
+          <div
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 0.85rem;
+              justify-content: flex-end;
+              margin-bottom: 3rem;
+            "
+          >
+            <a
+              href="#contact"
+              class="btn-primary"
+              style="padding: 0.85rem 2rem; font-size: 1rem"
+            >
+              בואו נדבר
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="m5 12 7 7 7-7M12 19V5" />
+              </svg>
+            </a>
+            <a
+              href="#services"
+              class="btn-outline"
+              style="padding: 0.85rem 2rem; font-size: 1rem"
+            >
+              תחומי ההתמחות
+            </a>
+          </div>
+
+          <!-- Stats row -->
+          <div
+            style="
+              display: flex;
+              gap: 1rem;
+              flex-wrap: wrap;
+              justify-content: flex-end;
+            "
+          >
+            <div class="stat-box">
+              <div class="stat-dot"></div>
+              <div>
+                <div
+                  style="
+                    font-size: 0.72rem;
+                    color: rgba(203, 213, 225, 0.5);
+                    font-weight: 600;
+                    letter-spacing: 0.06em;
+                  "
+                >
+                  פרויקטים
+                </div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #fff">
+                  +120
+                </div>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div
+                class="stat-dot"
+                style="background: #a78bfa; box-shadow: 0 0 8px #a78bfa"
+              ></div>
+              <div>
+                <div
+                  style="
+                    font-size: 0.72rem;
+                    color: rgba(203, 213, 225, 0.5);
+                    font-weight: 600;
+                    letter-spacing: 0.06em;
+                  "
+                >
+                  ארגונים
+                </div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #fff">
+                  +60
+                </div>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div
+                class="stat-dot"
+                style="background: #38bdf8; box-shadow: 0 0 8px #38bdf8"
+              ></div>
+              <div>
+                <div
+                  style="
+                    font-size: 0.72rem;
+                    color: rgba(203, 213, 225, 0.5);
+                    font-weight: 600;
+                    letter-spacing: 0.06em;
+                  "
+                >
+                  ROI ממוצע
+                </div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #fff">
+                  340%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left: Brain image -->
+        <div
+          style="
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+          "
+        >
+          <!-- Outer glow rings -->
+          <div
+            class="glow-ring"
+            style="
+              width: 420px;
+              height: 420px;
+              border-color: rgba(139, 92, 246, 0.2);
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              animation-delay: 0s;
+            "
+          ></div>
+          <div
+            class="glow-ring"
+            style="
+              width: 340px;
+              height: 340px;
+              border-color: rgba(59, 130, 246, 0.2);
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              animation-delay: 1.3s;
+            "
+          ></div>
+          <div
+            class="glow-ring"
+            style="
+              width: 260px;
+              height: 260px;
+              border-color: rgba(139, 92, 246, 0.15);
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              animation-delay: 2.6s;
+            "
+          ></div>
+
+          <!-- Glow blob behind image -->
+          <div
+            style="
+              position: absolute;
+              width: 320px;
+              height: 320px;
+              border-radius: 50%;
+              background: radial-gradient(
+                circle,
+                rgba(59, 130, 246, 0.25) 0%,
+                rgba(139, 92, 246, 0.15) 50%,
+                transparent 70%
+              );
+              filter: blur(30px);
+              z-index: 0;
+            "
+          ></div>
+
+          <!-- Brain image -->
+          <img
+            src="brain.png"
+            alt="AI Brain"
+            style="
+              width: 100%;
+              max-width: 440px;
+              position: relative;
+              z-index: 1;
+              filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.5))
+                drop-shadow(0 0 80px rgba(139, 92, 246, 0.3));
+              animation: float 6s ease-in-out infinite;
+            "
+          />
+        </div>
+      </div>
+
+      <!-- Scroll hint -->
+      <div
+        style="
+          position: absolute;
+          bottom: 2.5rem;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.6rem;
+          z-index: 2;
+        "
+      >
+        <span
+          style="
+            font-size: 0.7rem;
+            color: rgba(203, 213, 225, 0.4);
+            letter-spacing: 0.1em;
+            font-weight: 600;
+          "
+          >גלול למטה</span
+        >
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      </div>
+
+      <style>
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-14px);
+          }
+        }
+      </style>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════
+     SERVICES
+══════════════════════════════════════ -->
+    <section id="services" style="padding: 7rem 0">
+      <!-- Orb -->
+      <div
+        class="orb"
+        style="
+          width: 600px;
+          height: 300px;
+          background: radial-gradient(
+            ellipse,
+            rgba(139, 92, 246, 0.07),
+            transparent 70%
+          );
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+        "
+      ></div>
+
+      <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
+        <div style="text-align: center; margin-bottom: 4rem">
+          <p class="label" style="margin-bottom: 0.75rem">מה אנחנו מציעים</p>
+          <h2
+            style="
+              font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+              font-weight: 900;
+              color: #f1f5f9;
+              margin-bottom: 1rem;
+              letter-spacing: -0.02em;
+            "
+          >
+            תחומי ההתמחות שלנו
+          </h2>
+          <p
+            style="
+              color: var(--text-dim);
+              font-size: 1rem;
+              max-width: 520px;
+              margin: 0 auto;
+              line-height: 1.8;
+            "
+          >
+            מענה מקצועי מקצה לקצה — מהגדרת האסטרטגיה ועד להטמעה מלאה בארגון
+          </p>
+        </div>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.25rem;
+          "
+        >
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">🧠</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              אסטרטגיית AI ומפת דרכים
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>זיהוי הזדמנויות עסקיות לשימוש בבינה מלאכותית</li>
+              <li>מיפוי מוכנות הארגון (Data, תהליכים, טכנולוגיה)</li>
+              <li>בניית Roadmap עם תעדוף יוזמות לפי ROI</li>
+              <li>התאמת ה-AI לאסטרטגיה העסקית הכוללת</li>
+            </ul>
+          </div>
+
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">🏗️</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              ארכיטקטורת AI ארגונית
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>תכנון ארכיטקטורה End-to-End לפתרונות AI</li>
+              <li>שילוב פתרונות AI במערכות ליבה (ERP, CRM)</li>
+              <li>תכנון פתרונות מבוססי Agents ו-Copilot</li>
+              <li>התאמה לפלטפורמות ענן מתקדמות (Azure AI)</li>
+            </ul>
+          </div>
+
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">🤖</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              פתרונות GenAI וסוכני AI
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>פיתוח פתרונות מבוססי LLM ו-Copilots</li>
+              <li>מערכות ידע ארגוניות (RAG / Enterprise Search)</li>
+              <li>אוטומציה חכמה באמצעות סוכני AI</li>
+              <li>שיפור חוויית שירות באמצעות שיחה חכמה</li>
+            </ul>
+          </div>
+
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">📊</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              דאטה ותשתיות AI
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>הערכת איכות ומוכנות המידע (Data Readiness)</li>
+              <li>תכנון והקמת Data Pipelines ו-Platforms</li>
+              <li>ניהול נתונים, קטלוגים ו-Knowledge Bases</li>
+              <li>אנליטיקה מתקדמת ו-Machine Learning</li>
+            </ul>
+          </div>
+
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">🔄</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              אוטומציה חכמה ושיפור תהליכים
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>ייעול תהליכים עסקיים באמצעות AI</li>
+              <li>שילוב AI עם מערכות אוטומציה (RPA + AI)</li>
+              <li>הפחתת עלויות תפעול ושיפור פרודוקטיביות</li>
+              <li>זיהוי Quick Wins ליצירת ערך מיידי</li>
+            </ul>
+          </div>
+
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">🛡️</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              ממשל, אבטחה ו-Responsible AI
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>הגדרת מדיניות AI ארגונית</li>
+              <li>ניהול סיכונים, פרטיות וציות לרגולציה</li>
+              <li>יישום עקרונות Responsible AI</li>
+              <li>אבטחת מידע ו-Access Control</li>
+            </ul>
+          </div>
+
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">🚀</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              יישום, אינטגרציה והטמעה
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>פיתוח פתרונות AI מותאמים (POC → Production)</li>
+              <li>יישום מתודולוגיות MLOps / LLMOps</li>
+              <li>אינטגרציה למערכות קיימות</li>
+              <li>סקיילינג והפעלה בסביבה ארגונית</li>
+            </ul>
+          </div>
+
+          <div class="svc-card" style="padding: 1.75rem">
+            <div class="icon-badge">👥</div>
+            <h3
+              style="
+                font-size: 1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.85rem;
+                text-align: right;
+              "
+            >
+              אימוץ ארגוני והכשרת עובדים
+            </h3>
+            <ul class="feat-list" style="text-align: right">
+              <li>הדרכות והכשרות AI לארגון</li>
+              <li>פיתוח מיומנויות AI לעובדים ולמנהלים</li>
+              <li>הובלת שינוי ארגוני מבוסס AI</li>
+              <li>הגברת אימוץ ושילוב בעבודה היומיומית</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════
+     WHY US
+══════════════════════════════════════ -->
+    <section
+      id="why-us"
+      style="
+        padding: 7rem 0;
+        background: radial-gradient(
+          ellipse 80% 60% at 20% 50%,
+          rgba(59, 130, 246, 0.06),
+          transparent 70%
+        );
+      "
+    >
+      <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
+        <div style="text-align: center; margin-bottom: 4rem">
+          <p class="label" style="margin-bottom: 0.75rem">למה לעבוד איתנו</p>
+          <h2
+            style="
+              font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+              font-weight: 900;
+              color: #f1f5f9;
+              letter-spacing: -0.02em;
+            "
+          >
+            הערך העסקי שאתם מקבלים
+          </h2>
+        </div>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 1.5rem;
+          "
+        >
+          <div class="val-card">
+            <div
+              class="val-icon"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(16, 185, 129, 0.2),
+                  rgba(59, 130, 246, 0.12)
+                );
+                border: 1px solid rgba(16, 185, 129, 0.2);
+              "
+            >
+              📈
+            </div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.75rem;
+              "
+            >
+              שיפור קבלת החלטות
+            </h3>
+            <p
+              style="
+                color: var(--text-dim);
+                font-size: 0.9rem;
+                line-height: 1.75;
+              "
+            >
+              החלטות מבוססות נתונים ותובנות AI לכל רמות הארגון
+            </p>
+          </div>
+
+          <div class="val-card">
+            <div
+              class="val-icon"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(251, 191, 36, 0.2),
+                  rgba(245, 158, 11, 0.12)
+                );
+                border: 1px solid rgba(251, 191, 36, 0.2);
+              "
+            >
+              ⚡
+            </div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.75rem;
+              "
+            >
+              הגדלת פרודוקטיביות
+            </h3>
+            <p
+              style="
+                color: var(--text-dim);
+                font-size: 0.9rem;
+                line-height: 1.75;
+              "
+            >
+              צמצום עלויות תפעול ושיפור יעילות באמצעות אוטומציה חכמה
+            </p>
+          </div>
+
+          <div class="val-card">
+            <div
+              class="val-icon"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(139, 92, 246, 0.2),
+                  rgba(168, 85, 247, 0.12)
+                );
+                border: 1px solid rgba(139, 92, 246, 0.2);
+              "
+            >
+              💡
+            </div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.75rem;
+              "
+            >
+              האצת חדשנות
+            </h3>
+            <p
+              style="
+                color: var(--text-dim);
+                font-size: 0.9rem;
+                line-height: 1.75;
+              "
+            >
+              מנוע צמיחה עסקית מבוסס טכנולוגיות AI מתקדמות
+            </p>
+          </div>
+
+          <div class="val-card">
+            <div
+              class="val-icon"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(239, 68, 68, 0.2),
+                  rgba(249, 115, 22, 0.12)
+                );
+                border: 1px solid rgba(239, 68, 68, 0.2);
+              "
+            >
+              🏆
+            </div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 0.75rem;
+              "
+            >
+              יתרון תחרותי
+            </h3>
+            <p
+              style="
+                color: var(--text-dim);
+                font-size: 0.9rem;
+                line-height: 1.75;
+              "
+            >
+              יצירת יתרון עסקי מתמשך באמצעות פתרונות AI ייחודיים
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════
+     METHODOLOGY
+══════════════════════════════════════ -->
+    <section id="methodology" style="padding: 7rem 0">
+      <div
+        class="orb"
+        style="
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(
+            circle,
+            rgba(139, 92, 246, 0.08),
+            transparent 70%
+          );
+          bottom: -100px;
+          right: -100px;
+        "
+      ></div>
+
+      <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
+        <div style="text-align: center; margin-bottom: 4rem">
+          <p class="label" style="margin-bottom: 0.75rem">המתודולוגיה שלנו</p>
+          <h2
+            style="
+              font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+              font-weight: 900;
+              color: #f1f5f9;
+              letter-spacing: -0.02em;
+            "
+          >
+            איך אנחנו עובדים?
+          </h2>
+        </div>
+
+        <!-- Connector line -->
+        <div style="position: relative">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 1.5rem;
+              position: relative;
+            "
+          >
+            <!-- Step line -->
+            <div
+              style="
+                position: absolute;
+                top: 2.8rem;
+                right: calc(16.6% + 1rem);
+                left: calc(16.6% + 1rem);
+                height: 1px;
+                background: linear-gradient(
+                  90deg,
+                  transparent,
+                  rgba(139, 92, 246, 0.5),
+                  rgba(59, 130, 246, 0.5),
+                  transparent
+                );
+                z-index: 0;
+              "
+              class="hidden md:block"
+            ></div>
+
+            <div
+              class="step-card"
+              style="border-color: rgba(139, 92, 246, 0.15)"
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  height: 3px;
+                  background: linear-gradient(90deg, #7c3aed, #3b82f6);
+                  border-radius: 24px 24px 0 0;
+                "
+              ></div>
+              <div class="step-num">01</div>
+              <div class="step-badge">Discover</div>
+              <h3
+                style="
+                  font-size: 1.4rem;
+                  font-weight: 900;
+                  color: #f1f5f9;
+                  margin-bottom: 0.85rem;
+                  text-align: right;
+                "
+              >
+                מיפוי והבנה
+              </h3>
+              <p
+                style="
+                  color: var(--text-dim);
+                  line-height: 1.8;
+                  text-align: right;
+                  font-size: 0.95rem;
+                "
+              >
+                מיפוי מעמיק של הצרכים העסקיים, זיהוי הזדמנויות ובחינת המוכנות
+                הארגונית ליישום AI
+              </p>
+              <div
+                style="
+                  position: absolute;
+                  bottom: -1px;
+                  right: -1px;
+                  width: 80px;
+                  height: 80px;
+                  background: radial-gradient(
+                    circle,
+                    rgba(139, 92, 246, 0.1),
+                    transparent
+                  );
+                  border-radius: 0 0 24px 0;
+                  pointer-events: none;
+                "
+              ></div>
+            </div>
+
+            <div
+              class="step-card"
+              style="
+                border-color: rgba(139, 92, 246, 0.3);
+                background: rgba(139, 92, 246, 0.05);
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  height: 3px;
+                  background: linear-gradient(90deg, #a855f7, #60a5fa);
+                  border-radius: 24px 24px 0 0;
+                "
+              ></div>
+              <div class="step-num">02</div>
+              <div class="step-badge">Design & Build</div>
+              <h3
+                style="
+                  font-size: 1.4rem;
+                  font-weight: 900;
+                  color: #f1f5f9;
+                  margin-bottom: 0.85rem;
+                  text-align: right;
+                "
+              >
+                תכנון ופיתוח
+              </h3>
+              <p
+                style="
+                  color: var(--text-dim);
+                  line-height: 1.8;
+                  text-align: right;
+                  font-size: 0.95rem;
+                "
+              >
+                תכנון ארכיטקטורה, פיתוח פתרונות מותאמים והוכחת ערך עסקי באמצעות
+                POC
+              </p>
+            </div>
+
+            <div
+              class="step-card"
+              style="border-color: rgba(59, 130, 246, 0.15)"
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  height: 3px;
+                  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+                  border-radius: 24px 24px 0 0;
+                "
+              ></div>
+              <div class="step-num">03</div>
+              <div class="step-badge">Scale</div>
+              <h3
+                style="
+                  font-size: 1.4rem;
+                  font-weight: 900;
+                  color: #f1f5f9;
+                  margin-bottom: 0.85rem;
+                  text-align: right;
+                "
+              >
+                הטמעה והרחבה
+              </h3>
+              <p
+                style="
+                  color: var(--text-dim);
+                  line-height: 1.8;
+                  text-align: right;
+                  font-size: 0.95rem;
+                "
+              >
+                הטמעה מלאה בארגון, אופטימיזציה מתמדת והרחבה לתחומים נוספים
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════
+     CONTACT
+══════════════════════════════════════ -->
+    <section
+      id="contact"
+      style="
+        padding: 7rem 0;
+        background: radial-gradient(
+          ellipse 70% 70% at 50% 100%,
+          rgba(139, 92, 246, 0.07),
+          transparent 70%
+        );
+      "
+    >
+      <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem">
+        <div style="text-align: center; margin-bottom: 4rem">
+          <p class="label" style="margin-bottom: 0.75rem">צרו קשר</p>
+          <h2
+            style="
+              font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+              font-weight: 900;
+              color: #f1f5f9;
+              letter-spacing: -0.02em;
+            "
+          >
+            מוכנים להתחיל?
+          </h2>
+        </div>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+          "
+        >
+          <!-- Form -->
+          <div class="glass" style="border-radius: 24px; padding: 2.5rem">
+            <h3
+              style="
+                font-size: 1.2rem;
+                font-weight: 800;
+                color: #f1f5f9;
+                margin-bottom: 1.5rem;
+                text-align: right;
+              "
+            >
+              שלחו פנייה
+            </h3>
+            <form
+              onsubmit="submitForm(event)"
+              style="display: flex; flex-direction: column; gap: 1rem"
+            >
+              <input type="text" placeholder="שם מלא" class="inp" />
+              <input type="tel" placeholder="טלפון" class="inp" />
+              <textarea
+                placeholder="ספרו לנו על הצרכים שלכם..."
+                rows="4"
+                class="inp"
+                style="resize: none"
+              ></textarea>
+              <button
+                type="submit"
+                id="submit-btn"
+                class="btn-primary"
+                style="
+                  width: 100%;
+                  padding: 1rem;
+                  font-size: 1rem;
+                  justify-content: center;
+                  border: none;
+                  cursor: pointer;
+                "
+              >
+                שלחו פנייה
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="m22 2-7 20-4-9-9-4Z" />
+                  <path d="M22 2 11 13" />
+                </svg>
+              </button>
+            </form>
+          </div>
+
+          <!-- Info -->
+          <div style="text-align: right; padding-top: 1rem">
+            <p
+              style="
+                font-size: 1.05rem;
+                line-height: 1.9;
+                color: var(--text-dim);
+                margin-bottom: 2.5rem;
+              "
+            >
+              השאירו פרטים ונחזור אליכם תוך 24 שעות עם הצעה מותאמת לצרכים שלכם.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  justify-content: flex-end;
+                "
+              >
+                <span style="color: #e2e8f0; font-size: 1rem"
+                  >info@example.com</span
+                >
+                <div class="cta-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#60a5fa"
+                    stroke-width="2"
+                  >
+                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  justify-content: flex-end;
+                "
+              >
+                <span style="color: #e2e8f0; font-size: 1rem"
+                  >+972-50-000-0000</span
+                >
+                <div class="cta-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#60a5fa"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18C1.61 2.09 2.45 1 3.53 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 6.06 6.06l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trust badges -->
+            <div
+              style="
+                margin-top: 3rem;
+                padding: 1.5rem;
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.07);
+              "
+            >
+              <p
+                style="
+                  font-size: 0.75rem;
+                  color: rgba(203, 213, 225, 0.45);
+                  font-weight: 600;
+                  letter-spacing: 0.08em;
+                  text-align: center;
+                  margin-bottom: 1rem;
+                "
+              >
+                אנחנו עובדים עם
+              </p>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  gap: 1.5rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <span
+                  style="
+                    color: rgba(203, 213, 225, 0.35);
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                  "
+                  >Microsoft Azure</span
+                >
+                <span
+                  style="
+                    color: rgba(203, 213, 225, 0.35);
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                  "
+                  >OpenAI</span
+                >
+                <span
+                  style="
+                    color: rgba(203, 213, 225, 0.35);
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                  "
+                  >Anthropic</span
+                >
+                <span
+                  style="
+                    color: rgba(203, 213, 225, 0.35);
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                  "
+                  >AWS</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+    <footer
+      style="
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        background: rgba(0, 0, 0, 0.4);
+      "
+    >
+      <div
+        style="
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 1rem;
+        "
+      >
+        <!-- Logo -->
+        <div style="display: flex; align-items: center; gap: 8px">
+          <div
+            style="
+              width: 28px;
+              height: 28px;
+              border-radius: 8px;
+              background: linear-gradient(135deg, #7c3aed, #3b82f6);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2.2"
+            >
+              <path
+                d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"
+              />
+              <path
+                d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"
+              />
+            </svg>
+          </div>
+          <span style="font-weight: 800; color: #e2e8f0; font-size: 0.95rem"
+            >AI Strategy Pro</span
+          >
+        </div>
+        <p style="color: rgba(203, 213, 225, 0.35); font-size: 0.85rem">
+          © 2026 כל הזכויות שמורות
+        </p>
+        <div style="display: flex; gap: 1.5rem">
+          <a
+            href="#services"
+            style="
+              color: rgba(203, 213, 225, 0.45);
+              font-size: 0.85rem;
+              transition: color 0.2s;
+            "
+            onmouseover="this.style.color = '#e2e8f0'"
+            onmouseout="this.style.color = 'rgba(203,213,225,.45)'"
+            >שירותים</a
+          >
+          <a
+            href="#contact"
+            style="
+              color: rgba(203, 213, 225, 0.45);
+              font-size: 0.85rem;
+              transition: color 0.2s;
+            "
+            onmouseover="this.style.color = '#e2e8f0'"
+            onmouseout="this.style.color = 'rgba(203,213,225,.45)'"
+            >צרו קשר</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Form submit
+      function submitForm(e) {
+        e.preventDefault();
+        const btn = document.getElementById("submit-btn");
+        btn.innerHTML = "✓ הפנייה נשלחה בהצלחה!";
+        btn.style.background = "linear-gradient(135deg,#059669,#10b981)";
+        btn.style.boxShadow = "0 4px 24px rgba(16,185,129,0.4)";
+        setTimeout(() => {
+          btn.innerHTML =
+            'שלחו פנייה <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
+          btn.style.background = "";
+          btn.style.boxShadow = "";
+          e.target.reset();
+        }, 3500);
+      }
+
+      // Navbar scroll opacity
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("nav");
+        nav.style.background =
+          window.scrollY > 60 ? "rgba(5,10,20,0.95)" : "rgba(5,10,20,0.8)";
+      });
+
+      // Smooth anchors
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const t = document.querySelector(a.getAttribute("href"));
+          if (t) {
+            e.preventDefault();
+            t.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
+      // Fade-in on scroll
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document
+        .querySelectorAll(".svc-card, .val-card, .step-card")
+        .forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(24px)";
+          el.style.transition =
+            "opacity .6s ease, transform .6s ease, border-color .3s, background .3s, box-shadow .3s";
+          observer.observe(el);
+        });
+    </script>
+  </body>
+</html>
