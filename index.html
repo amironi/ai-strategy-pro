@@ -1679,12 +1679,54 @@
           <!-- Form -->
           <div class="glass" style="border-radius: 24px; padding: 2.5rem">
             <!-- Success state -->
-            <div id="form-success-box" style="display:none; text-align:center; padding: 2rem 0;">
-              <div style="width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#059669,#10b981); display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <div
+              id="form-success-box"
+              style="display: none; text-align: center; padding: 2rem 0"
+            >
+              <div
+                style="
+                  width: 64px;
+                  height: 64px;
+                  border-radius: 50%;
+                  background: linear-gradient(135deg, #059669, #10b981);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin: 0 auto 1.25rem;
+                "
+              >
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2.5"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
               </div>
-              <h3 id="form-success-title" style="font-size:1.3rem; font-weight:800; color:#f1f5f9; margin-bottom:0.6rem;">הפנייה נשלחה!</h3>
-              <p id="form-success-desc" style="color:rgba(203,213,225,0.65); font-size:0.95rem; line-height:1.7;">נחזור אליכם תוך 24 שעות.</p>
+              <h3
+                id="form-success-title"
+                style="
+                  font-size: 1.3rem;
+                  font-weight: 800;
+                  color: #f1f5f9;
+                  margin-bottom: 0.6rem;
+                "
+              >
+                הפנייה נשלחה!
+              </h3>
+              <p
+                id="form-success-desc"
+                style="
+                  color: rgba(203, 213, 225, 0.65);
+                  font-size: 0.95rem;
+                  line-height: 1.7;
+                "
+              >
+                נחזור אליכם תוך 24 שעות.
+              </p>
             </div>
             <h3
               id="form-heading"
@@ -1736,7 +1778,15 @@
                 required
                 data-i18n="formMessage"
               ></textarea>
-              <div id="form-error" style="display:none; color:#f87171; font-size:0.88rem; text-align:right;"></div>
+              <div
+                id="form-error"
+                style="
+                  display: none;
+                  color: #f87171;
+                  font-size: 0.88rem;
+                  text-align: right;
+                "
+              ></div>
               <button
                 type="submit"
                 id="submit-btn"
@@ -2305,11 +2355,14 @@
 
         try {
           const data = new FormData(form);
-          const res = await fetch("https://formsubmit.co/ajax/am5050@gmail.com", {
-            method: "POST",
-            headers: { Accept: "application/json" },
-            body: data,
-          });
+          const res = await fetch(
+            "https://formsubmit.co/ajax/176f02374dc38618260ff678cb892e31",
+            {
+              method: "POST",
+              headers: { Accept: "application/json" },
+              body: data,
+            },
+          );
           const json = await res.json();
           if (json.message && json.message.includes("Activation")) {
             throw new Error("activation");
@@ -2321,20 +2374,25 @@
             document.getElementById("form-heading").style.display = "none";
             const box = document.getElementById("form-success-box");
             const isHe = currentLang === "he";
-            document.getElementById("form-success-title").textContent = isHe ? "הפנייה נשלחה בהצלחה! ✓" : "Inquiry Sent Successfully! ✓";
-            document.getElementById("form-success-desc").textContent = isHe ? "נחזור אליכם תוך 24 שעות עם הצעה מותאמת." : "We'll get back to you within 24 hours with a tailored proposal.";
+            document.getElementById("form-success-title").textContent = isHe
+              ? "הפנייה נשלחה בהצלחה! ✓"
+              : "Inquiry Sent Successfully! ✓";
+            document.getElementById("form-success-desc").textContent = isHe
+              ? "נחזור אליכם תוך 24 שעות עם הצעה מותאמת."
+              : "We'll get back to you within 24 hours with a tailored proposal.";
             box.style.display = "block";
           } else {
             throw new Error("submission failed");
           }
         } catch (err) {
-          errorDiv.textContent = err.message === "activation"
-            ? (currentLang === "he"
-                ? "📧 נשלח אימייל אימות ל-am5050@gmail.com — לחצו על הקישור ואז שלחו שוב."
-                : "📧 Activation email sent to am5050@gmail.com — click the link then resubmit.")
-            : (currentLang === "he"
+          errorDiv.textContent =
+            err.message === "activation"
+              ? currentLang === "he"
+                ? "📧 נשלח אימייל אימות ל- — לחצו על הקישור ואז שלחו שוב."
+                : "📧 Activation email sent to  — click the link then resubmit."
+              : currentLang === "he"
                 ? "שגיאה בשליחה — נסו שוב או צרו קשר ישירות."
-                : "Submission error — please try again or contact us directly.");
+                : "Submission error — please try again or contact us directly.";
           errorDiv.style.display = "block";
           btn.innerHTML =
             t.formSubmit +
