@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "israeli-tech-interview-prep": {
+      "source": "skills-il/education",
+      "sourceType": "github",
+      "computedHash": "d52520761b67321e1c7982a527ce5adae7b5b17dd9ff2a05f8be247285d6747b"
+    }
+  }
+}
